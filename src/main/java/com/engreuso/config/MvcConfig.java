@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.engreuso.controller")
+@ComponentScan("com.engreuso.api.v1")
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
 	private static final Logger log = Logger.getLogger(MvcConfig.class);

@@ -10,19 +10,30 @@ import com.engreuso.repository.CustomerRepository;
 public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
-	private CustomerRepository userRepository;
+	private CustomerRepository customerRepository;
 
 	@Override
-	public Customer getById(Long id) {
-		Customer user = userRepository.findOne(id);
-		if (user == null) {
-			throw new RuntimeException("User not found!");
-		}
-		return user;
+	public Customer save(Customer customer) {
+		return customerRepository.save(customer);
 	}
 
 	@Override
-	public Customer save(Customer user) {
-		return userRepository.save(user);
+	public Iterable findAll() {
+		return customerRepository.findAll();
+	}
+
+	@Override
+	public Customer findOne(Long id) {
+		return customerRepository.findOne(id);
+	}
+
+	@Override
+	public Customer update(Customer customer) {
+		return customerRepository.save(customer);
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		customerRepository.delete(id);		
 	}
 }

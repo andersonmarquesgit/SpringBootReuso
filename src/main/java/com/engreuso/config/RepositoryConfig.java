@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
 @ComponentScan(basePackages = {"com.engreuso.repository", "com.engreuso.model"})
-@EnableJpaRepositories("com.javainterviewpoint.repository")
+@EnableJpaRepositories("com.engreuso.repository")
 public class RepositoryConfig {
 
 	private static final Logger log = Logger.getLogger(RepositoryConfig.class);
@@ -39,8 +39,8 @@ public class RepositoryConfig {
 	private static final String PROPERTY_NAME_HIBERNATE_FORMAT_SQL = "hibernate.format_sql";
 	private static final String PROPERTY_NAME_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
 	
-//	private static final String PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES = "hibernate.hbm2ddl.import_files";
-//	private static final String PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES_SQL_EXT = "hibernate.hbm2ddl.import_files_sql_extractor";
+	private static final String PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES = "hibernate.hbm2ddl.import_files";
+	private static final String PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES_SQL_EXT = "hibernate.hbm2ddl.import_files_sql_extractor";
 
 	@Resource
 	private Environment env;
@@ -78,10 +78,10 @@ public class RepositoryConfig {
 		properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL));
 		properties.put(PROPERTY_NAME_HIBERNATE_FORMAT_SQL, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_FORMAT_SQL));
 		properties.put(PROPERTY_NAME_HIBERNATE_HBM2DDL_AUTO, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_HBM2DDL_AUTO));
+		
 		//CARREGA CREATE DATA
-//		properties.put(PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES));
-//		properties.put(PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES_SQL_EXT, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES_SQL_EXT));
-
+		properties.put(PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES));
+		properties.put(PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES_SQL_EXT, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_HBM2DDL_IMPORT_FILES_SQL_EXT));
 		return properties;
 	}
 	
