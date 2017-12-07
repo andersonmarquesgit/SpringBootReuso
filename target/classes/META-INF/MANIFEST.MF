@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: SpringBootReuso
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: anderson.marques
+Built-By: Anderson
 Implementation-Vendor-Id: com.javainterviewpoint
-Build-Jdk: 1.8.0_151
+Build-Jdk: 1.8.0_144
 Implementation-URL: http://projects.spring.io/spring-boot/SpringBootRe
  uso/
 Created-By: Maven Integration for Eclipse

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.engreuso.model.Customer;
 import com.engreuso.service.CustomerService;
+import com.engreuso.service.OrdersService;
 
 @RestController
 @RequestMapping("/customers")
@@ -19,6 +20,12 @@ public class CustomerRestController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private OrdersService orderService;
+	
+	@Autowired
+	private OrdersService ordersService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody Iterable listAll() {
@@ -50,5 +57,20 @@ public class CustomerRestController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long id) {
 		customerService.deleteById(id);
+	}
+	
+	@RequestMapping(value = "/{id}/orders", method = RequestMethod.GET)
+	public Iterable getOrdersByCustomerID(@PathVariable("id") Long id) {
+		Customer customer = customerService.findOne(id);
+		Iterable orders = customer.getOrders();
+		return orders;
+	}
+	
+	@RequestMapping(value = "/{id}/orders", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteOrdersBuCustomerID(@PathVariable("id") Long id) {
+		Customer customer = customerService.findOne(id);
+		Iterable orders = customer.getOrders();
+		orderService.delete(orders);
 	}
 }
