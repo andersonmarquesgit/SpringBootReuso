@@ -7,6 +7,6 @@ public interface OrdersService {
 	Iterable findAll();
 	Order findOne(Long id);
 	Order update(Order order);
-	void deleteById(Long id);
+	void delete(Order order);
 	void delete(Iterable orders);
 }

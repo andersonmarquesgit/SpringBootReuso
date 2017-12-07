@@ -17,16 +17,12 @@ import javax.persistence.Table;
 public class Customer {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 	
 	private String name;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="tb_customer_orders", 
-		joinColumns=@JoinColumn(table="tb_customer", name="customer_id", referencedColumnName="id"),
-		inverseJoinColumns=@JoinColumn(table="tb_order",name="order_id", referencedColumnName="id")
-	)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="customer")
 	private List<Order> orders;
 	
 	public Long getId() {
@@ -52,4 +48,5 @@ public class Customer {
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
 	}
+
 }

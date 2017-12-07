@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.engreuso.exceptions.OrderNotFoundException;
 import com.engreuso.model.Order;
 import com.engreuso.service.OrdersService;
 
@@ -36,24 +37,36 @@ public class OrderRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Order get(@PathVariable("id") Long id) {
-		return orderService.findOne(id);
+		Order order = orderService.findOne(id);
+		if (order == null) throw new OrderNotFoundException(id);
+		
+		return order;
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody Order update(@PathVariable("id") Long id, @RequestBody String reason, String service) {
+	public @ResponseBody Order update(@PathVariable("id") Long id, @RequestBody Order order) {
 		Order orderUpdated = orderService.findOne(id);
-		if(orderUpdated != null) {
-			orderUpdated.setReason(reason);
-			orderUpdated.setService(service);
+		if (orderUpdated == null) {
+			throw new OrderNotFoundException(id);
+		}else {
+			orderUpdated.setReason(order.getReason());
+			orderUpdated.setService(order.getService());
+			orderUpdated = orderService.update(orderUpdated);
 		}
-		return orderService.update(orderUpdated);
+		
+		return orderUpdated;
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long id) {
-		orderService.deleteById(id);
+		Order order = orderService.findOne(id);
+		if (order == null) {
+			throw new OrderNotFoundException(id);
+		}else {
+			orderService.delete(order);
+		}
+		
 	}
 	
 }

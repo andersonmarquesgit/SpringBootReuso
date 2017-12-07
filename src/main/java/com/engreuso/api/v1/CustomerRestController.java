@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.engreuso.exceptions.CustomerNotFoundException;
 import com.engreuso.model.Customer;
+import com.engreuso.model.Order;
 import com.engreuso.service.CustomerService;
 import com.engreuso.service.OrdersService;
 
@@ -45,32 +47,30 @@ public class CustomerRestController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody Customer update(@PathVariable("id") Long id, @RequestBody String name) {
-		Customer customerUpdated = customerService.findOne(id);
-		if(customerUpdated != null) {
-			customerUpdated.setName(name);
-		}
-		return customerService.update(customerUpdated);
+	public @ResponseBody Customer update(@PathVariable("id") Long id, @RequestBody Customer customerUpdated) {
+		return customerService.update(id, customerUpdated);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long id) {
-		customerService.deleteById(id);
+		customerService.delete(id);
 	}
 	
 	@RequestMapping(value = "/{id}/orders", method = RequestMethod.GET)
 	public Iterable getOrdersByCustomerID(@PathVariable("id") Long id) {
-		Customer customer = customerService.findOne(id);
-		Iterable orders = customer.getOrders();
-		return orders;
+		return customerService.getOrdersByCustomerID(id);
+	}
+	
+	@RequestMapping(value = "/{id}/orders", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public Customer saveOrderByCustomerID(@PathVariable("id") Long id, @RequestBody Order order) {
+		return customerService.saveOrderByCustomerID(id, order);
 	}
 	
 	@RequestMapping(value = "/{id}/orders", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteOrdersBuCustomerID(@PathVariable("id") Long id) {
-		Customer customer = customerService.findOne(id);
-		Iterable orders = customer.getOrders();
-		orderService.delete(orders);
+		customerService.deleteOrdersByCustomerID(id);
 	}
 }
